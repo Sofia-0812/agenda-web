@@ -38,5 +38,5 @@ services:
 databases:
   - name: agenda-db
     databaseName: agenda_db
-    user: postgres
+    user: agendauser
     plan: free
