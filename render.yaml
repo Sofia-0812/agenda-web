@@ -1,0 +1,42 @@
+services:
+  - type: web
+    name: agenda-backend
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: agenda-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: agenda-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: agenda-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: agenda-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: agenda-db
+          property: password
+
+  - type: web
+    name: agenda-frontend
+    runtime: docker
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    envVars:
+      - key: REACT_APP_API_URL
+        value: https://agenda-backend.onrender.com/api
+
+databases:
+  - name: agenda-db
+    databaseName: agenda_db
+    user: postgres
+    plan: free
