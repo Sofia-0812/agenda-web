@@ -36,6 +36,13 @@ Sistema de Agenda Web para gerenciamento de Profissionais de Saúde, Atendimento
 | Atendimento | `/api/atendimentos` | CRUD completo |
 | Exame | `/api/exames` | CRUD completo |
 
+## Divisão de Trabalho
+
+O desenvolvimento do sistema e a configuração da infraestrutura foram distribuídos entre os membros do grupo da seguinte forma:
+
+* **DEV 1 - Sofia:** Responsável pelo ciclo completo (Backend, Frontend e Integração) do CRUD de **Profissionais de Saúde**, estruturação inicial da suíte de testes automatizados no backend e atuação conjunta no processo de deploy.
+* **DEV 2 - Matheus:** Responsável pelo ciclo completo (Backend, Frontend e Integração) dos CRUDs de **Atendimentos** e **Exames de Laboratório**, mapeamento dos relacionamentos relacionais entre as tabelas e atuação conjunta no processo de deploy.
+
 ## Executar Localmente
 
 Para rodar o ambiente completo de desenvolvimento local com persistência de dados, utilize o Docker Compose:
@@ -48,6 +55,26 @@ docker-compose up -d
 # Backend: http://localhost:8080
 # Frontend: http://localhost:3000
 # Swagger: http://localhost:8080/swagger-ui.html
+```
+
+## Como Executar Testes
+
+O projeto conta com testes automatizados integrados para validação das regras de negócio e contratos de API de todas as entidades do sistema.
+
+### Testes do Backend (JUnit 5 + Mockito)
+Para rodar a suíte completa de testes automatizados do Spring Boot (testes unitários isolados dos controllers e testes de integração de fluxo completo):
+
+```bash
+cd backend
+mvn test
+```
+
+### Testes do Frontend (Jest / React Testing Library)
+Para rodar a suíte de testes da interface em React:
+
+```bash
+cd frontend
+npm test
 ```
 
 ## Estrutura do Projeto
