@@ -27,12 +27,25 @@ function ExameList() {
         <Link to="/exames/novo" className="btn btn-primary">+ Novo Exame</Link>
       </div>
       <table>
-        <thead><tr><th>Descrição</th><th>Posologia</th><th>Ações</th></tr></thead>
+        <thead>
+          <tr>
+            <th>Descrição</th>
+            <th>Posologia</th>
+            <th>Atendimento</th> {/* Nova coluna adicionada */}
+            <th>Ações</th>
+          </tr>
+        </thead>
         <tbody>
           {exames.map(e => (
             <tr key={e.id}>
               <td>{e.descricao}</td>
               <td>{e.posologia || '-'}</td>
+              {/* Renderiza o título e a data do atendimento se ele existir */}
+              <td>
+                {e.atendimento 
+                  ? `${e.atendimento.titulo} (${e.atendimento.data})` 
+                  : '-'}
+              </td>
               <td>
                 <Link to={`/exames/editar/${e.id}`} className="btn btn-sm">Editar</Link>
                 <button onClick={() => deletar(e.id)} className="btn btn-danger btn-sm">Excluir</button>
