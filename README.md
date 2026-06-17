@@ -2,6 +2,12 @@
 
 Sistema de Agenda Web para gerenciamento de Profissionais de Saúde, Atendimentos e Exames de Laboratório.
 
+## Links do Projeto em Produção
+
+* **Link da Aplicação (Frontend):** https://agenda-frontend-he2x.onrender.com
+* **API REST (Backend):** https://agenda-web-8gfo.onrender.com/api
+* **Documentação Swagger:** https://agenda-web-8gfo.onrender.com/swagger-ui.html
+
 ## Tecnologias
 
 | Camada | Tecnologia |
@@ -32,10 +38,13 @@ Sistema de Agenda Web para gerenciamento de Profissionais de Saúde, Atendimento
 
 ## Executar Localmente
 
+Para rodar o ambiente completo de desenvolvimento local com persistência de dados, utilize o Docker Compose:
+
 ```bash
-# Usando Docker Compose
+# Iniciar os containers em segundo plano
 docker-compose up -d
 
+# URLs Locais:
 # Backend: http://localhost:8080
 # Frontend: http://localhost:3000
 # Swagger: http://localhost:8080/swagger-ui.html
@@ -57,13 +66,19 @@ agenda-web/
 │   ├── Dockerfile
 │   └── src/components/
 ├── docker-compose.yml
-├── render.yaml        # Deploy no Render
+├── render.yaml        # Configuração de Infraestrutura como Código (IaC)
 └── .github/workflows/ci-cd.yml
 ```
 
-## Deploy no Render
+## Arquitetura de Deploy no Render.com
 
-1. Faça fork/clone deste repositório para sua conta GitHub
-2. Acesse [render.com](https://render.com) → New → Blueprint
-3. Conecte ao repositório
-4. O `render.yaml` configura automaticamente backend + frontend + banco
+Para a publicação final da aplicação na nuvem através do Render, optou-se por uma estratégia de **Deploy Manual de Recursos Isolados**, uma vez que a plataforma exige verificação de conta com cartão de crédito para a execução de automações via *Blueprints Orchestrator*.
+
+A infraestrutura foi dividida e conectada da seguinte forma:
+
+1. **Banco de Dados (PostgreSQL):** Criado uma instância nativa do Postgres 15 (`agenda-db`) utilizando o plano gratuito da plataforma.
+2. **Backend (Web Service Docker):** Criado a partir do código contido na subpasta `/backend`. Foi configurado o contexto de build para a pasta correspondente e injetadas as variáveis de ambiente (`DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD`) apontando dinamicamente para as credenciais do banco de dados PostgreSQL criado.
+3. **Frontend (Static Site):** Publicado como um site estático focado na subpasta `/frontend`. O comando de build executado foi o `npm run build` apontando para o diretório de publicação `build`. Foi injetada a variável de ambiente `REACT_APP_API_URL` apontando para a URL ativa do Web Service do backend em produção.
+
+### Utilização Futura do Blueprint (`render.yaml`)
+Apesar do deploy atual ter sido realizado através do gerenciamento individual de recursos na interface do painel, o arquivo de Infraestrutura como Código `render.yaml` encontra-se totalmente atualizado e funcional na raiz do projeto. Usuários com contas verificadas na plataforma podem realizar o deploy automatizado de toda a stack clicando em **New > Blueprint** e conectando este repositório.

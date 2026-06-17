@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: agenda-backend
+    name: agenda-web
     runtime: docker
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend
@@ -26,14 +26,14 @@ services:
           name: agenda-db
           property: password
 
-  - type: web
+  - type: static
     name: agenda-frontend
-    runtime: docker
-    dockerfilePath: ./frontend/Dockerfile
-    dockerContext: ./frontend
+    rootDir: ./frontend
+    buildCommand: npm run build
+    publishDir: build
     envVars:
       - key: REACT_APP_API_URL
-        value: https://agenda-backend.onrender.com/api
+        value: https://agenda-web-8gfo.onrender.com/api
 
 databases:
   - name: agenda-db
